@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{{ autor.nome }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+</head>
+<body>
+    <h1>{{ autor.nome }}</h1>
+    <p>Notícias publicadas por {{ autor.nome }}</p>
+    <table border="1">
+            <thead>
+                <tr>
+                    <th>Título da notícia</th>
+                    <th>Data de publicação</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for noticia in noticias %}
+                <tr>
+                    <td><a href="{% url "detalhes" noticia.pk %}">{{ noticia.titulo }}</a></td>
+                    <td>{{ noticia.data_de_publicacao }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+    </table>
+</body>
+</html>
