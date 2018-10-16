@@ -37,8 +37,27 @@ def noticias_por_categoria(request, nomeCategoria):
         noticias = Noticia.objects.filter(categoria=categoria)
         porcentangem = (noticias.count()/Noticia.objects.count())*100
         return render(request, 'app_noticias/categoria.html', {'categoria': categoria,
-        'noticias',
-        'porcentagme': porcentangem
+        'noticias': noticias,
+        'porcentagem': porcentangem
         })
     except Categoria.DoesNotExist:
         raise Http404('Categoria não encontrada')
+
+def estatisticas_de_publicacao_de_noticias(request):
+    autores = Pessoa.objects.all()
+    autor_com_mais_publicacoes = None
+    quant_noticias_do_autor = 0
+    for autor in autores:
+        quant_noticias = Noticia.objects.filter(autor=autor).count()
+        if quant_noticias > quant_noticias_do_autor:
+            quant_noticias_do_autor = quant_noticias
+            autor_com_mais_publicacoes = autor
+    categorias = Categoria.objects.all()
+    porcentagens_por_categoria = []
+    for categoria in categorias:
+        porcentagens_por_categoria.append([categoria,(Noticia.objects.filter(categoria=categoria).count()/Noticia.objects.count())*100])
+    return render(request, 'app_noticias/estatisticas.html', {'autores': autores.count(),
+    'autor_com_mais_publicacoes': autor_com_mais_publicacoes,
+    'quant_noticias_do_autor': quant_noticias_do_autor,
+    'porcentagens_por_categoria': porcentagens_por_categoria,
+    })

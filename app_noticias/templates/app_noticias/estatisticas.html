@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Estatísticas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+</head>
+<body>
+    <h1>Estatísticas</h1>
+    <p>Quantidade de autores cadastrados: {{ autores }}</p>
+    <p><a href="{% url "autor" autor_com_mais_publicacoes.pk %}">{{ autor_com_mais_publicacoes.nome }}</a> é o autor com mais notícias publicadas, com um total de {{ quant_noticias_do_autor }} notícias publicadas.</p>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Categorias</th>
+                <th>Porcentagem de notícias na categoria</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for categoria, porcentagem in porcentagens_por_categoria %}
+            <tr>
+                <td><a href="{% url "categoria" categoria.nome %}">{{ categoria.nome }}</a></td>
+                <td align=center>{{ porcentagem | floatformat }} %</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+</table>
+</body>
+</html>
